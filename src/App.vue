@@ -3,6 +3,7 @@
     <HeroHeader />
     <Welcome />
     <Advantages />
+    <Offers title="Upcoming Adventures" :length=3 />
     <Footer />
   </div>
 </template>
@@ -13,6 +14,7 @@ import Welcome from './components/Welcome.vue'
 import Advantages from './components/Advantages.vue'
 import Footer from './components/Footer.vue'
 import HeroHeader from './components/HeroHeader.vue'
+import Offers from './components/Offers.vue'
 
 
 export default {
@@ -21,6 +23,7 @@ export default {
     HeroHeader,
     Welcome,
     Advantages,
+    Offers,
     Footer,
 
   }
