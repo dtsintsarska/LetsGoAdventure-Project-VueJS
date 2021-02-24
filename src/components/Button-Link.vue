@@ -1,0 +1,42 @@
+<template>
+  <router-link :to="href">
+    <button type="button" class="btn">
+      {{ title }}
+    </button>
+  </router-link>
+</template>
+
+<script>
+export default {
+  props: {
+    href: {
+      required: true,
+    },
+    title: {
+      required: true,
+      type: String,
+    },
+  },
+};
+</script>
+
+<style>
+.btn {
+  background: #3498b9;
+  color: snow;
+  padding: 1%;
+  width: 120px;
+  border-radius: 15px;
+  border: none;
+  border: 1px solid white;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #fff;
+  border: 1px solid #3498b9;
+  color: #3498b9;
+}
+</style>
