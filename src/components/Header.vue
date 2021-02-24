@@ -1,6 +1,8 @@
 <template>
   <section class="navigation">
-    <img src="../assets/images/logo.png" alt="Logo" class="siteTitle" />
+    <router-link to="/">
+      <img src="../assets/images/logo.png" alt="Logo" class="siteTitle" />
+    </router-link>
 
     <nav>
       <ul>
@@ -8,26 +10,25 @@
           <div v-if="link.dropdown">
             <div class="dropdown">
               <span class="wrapperProgram">
-                <a :href="link.link">
+                <router-link :to="link.link">
                   {{ link.title }}
-                </a>
+                </router-link>
               </span>
               <div class="dropdownContent">
-    
-                <a
+                <router-link
                   v-for="(dropEl, index) in link.dropdown"
                   :key="index"
-                  :href="dropEl.link"
+                  :to="dropEl.link"
                 >
                   {{ dropEl.title }}
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
           <div v-else>
-            <a :href="link.link">
+            <router-link :to="link.link">
               {{ link.title }}
-            </a>
+            </router-link>
           </div>
         </li>
       </ul>
@@ -37,8 +38,6 @@
 
 <script>
 import getNavigation from "../helpers/navigation";
-
-// TODO make logo link to homepage
 
 export default {
   data() {
