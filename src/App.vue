@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header />
     <HeroHeader />
     <Welcome />
     <Advantages />
@@ -15,6 +16,7 @@ import Advantages from './components/Advantages.vue'
 import Footer from './components/Footer.vue'
 import HeroHeader from './components/HeroHeader.vue'
 import Offers from './components/Offers.vue'
+import Header from './components/Header.vue'
 
 
 export default {
@@ -25,6 +27,7 @@ export default {
     Advantages,
     Offers,
     Footer,
+    Header
 
   }
 }

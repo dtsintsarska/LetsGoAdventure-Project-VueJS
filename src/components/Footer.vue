@@ -2,7 +2,7 @@
    <footer>
       <p>All Rights Reserved © Let's Go Adventure</p>
       <ul class="social">
-        <li>Follow as:</li>
+        <li>Follow us:</li>
         <li>
           <a href="http://www.facebook.com">
            <i class="fab fa-facebook"></i>
