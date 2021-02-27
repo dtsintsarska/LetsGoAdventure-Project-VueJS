@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Title from '../components/Title.vue';
-import Button from '../components/Button-Link.vue';
+import Title from '../../components/Title.vue';
+import Button from '../../components/Button-Link.vue';
 
 export default {
     components: {
@@ -43,7 +43,7 @@ export default {
 
 <style scoped>
 .background {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../assets/images/Ice-Lakes-BG.jpg") no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../../assets/images/Ice-Lakes-BG.jpg") no-repeat;
     background-size: cover;
 }
 
