@@ -16,8 +16,8 @@
       <p><strong>Category</strong>: {{ item.category }}</p>
       <div class="buttons">
         <div>
-          <!-- <Button title='See more' href={`/adventures/${_id}`} /> -->
-          <button type="button" class="button">See more</button>
+          <Button  title='See more' :href="'/adventures/'+ item._id" />
+          <!-- <button type="button" class="button">See more</button> -->
         </div>
         <!-- {isAdmin ? (
             <div onClick={onClick}>
@@ -33,7 +33,11 @@
 </template>
 
 <script>
+import Button from './Button-Link.vue'
 export default {
+  components: {
+    Button
+  },
   props: {
     item: {
       type: Object,
