@@ -38,7 +38,6 @@ export default {
       const promise = await fetch(`http://localhost:9999/api/offers`);
       let receivedOffers = await promise.json();
 
-      console.log(receivedOffers);
       receivedOffers = receivedOffers.slice(0, this.$props.length);
 
       this.offers = receivedOffers;
