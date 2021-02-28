@@ -1,0 +1,70 @@
+<template>
+    <div class="container">
+      <div class="description">
+        {{ commentInfo.comment }}
+      </div>
+      <p>
+        <span class="user">
+          <strong>Author: {{ commentInfo.username }}</strong>
+        </span>
+      </p>
+    </div>
+</template>
+
+<script>
+export default {
+  props: {
+    commentInfo: {
+      type: Object,
+      required: true
+    },
+  }
+};
+</script>
+
+<style scoped>
+.container {
+  width: 550px;
+  height: 75px;
+  background-color: #3498b3 !important;
+  color: #fff;
+  padding: 20px;
+  position: relative;
+  margin: 40px;
+  float: left;
+  border-radius: 1%;
+}
+
+.container:after {
+  content: " ";
+  position: absolute;
+  left: -15px;
+  top: 15px;
+  border-top: 15px solid transparent;
+  border-right: 15px solid #3498b3;
+  border-left: none;
+  border-bottom: 15px solid transparent;
+}
+
+.description {
+  word-wrap: break-word;
+  padding: 0.5%;
+  font-style: italic;
+  /* border:1px solid blue; */
+  margin-bottom: 0.5%;
+  width: 95%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.container p {
+  height: auto;
+  text-align: right;
+  margin-bottom: 0.5%;
+}
+
+.user {
+  text-align: left;
+  padding-right: 1%;
+}
+</style>

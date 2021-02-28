@@ -31,18 +31,31 @@
         <div class="galery">
           <h3>Adventure's Gallery</h3>
           <div>
-            <!-- {galery.map((image, index) => {
-                  return <Gallery image={image} alt='Pic' key={index} />;
-                })} -->
+            <img
+              v-for="(image, index) in adventure.galery"
+              :key="index"
+              :src="image"
+              :alt="index"
+              class="pic"
+            />;
           </div>
         </div>
       </section>
       <section>
         <div class="comments">
-          <button class="commentsButton" onClick="{this.onClick}">
+          <button class="commentsButton" @click="showComments = !showComments">
             See all comments about this adventure
           </button>
-          <!-- <div v-if="showComments">{showComments ? this.getComments(comments) : null}</div> -->
+          <div v-if="showComments">
+            <div v-if="adventure.comments.length == 0" class="noComments">
+              No comments found! Save your seat and be the first who write
+              comment about this adventure!
+            </div>
+            <div v-else v-for="(comment, index) in adventure.comments"
+                :key="index">
+                <Comment :commentInfo="comment" />
+            </div>
+          </div>
         </div>
       </section>
     </section>
@@ -52,6 +65,7 @@
 <script>
 import Title from "../../components/Title.vue";
 import Aside from "./Aside.vue";
+import Comment from "./Comment.vue";
 
 export default {
   data() {
@@ -67,6 +81,7 @@ export default {
   components: {
     Title,
     Aside,
+    Comment,
   },
   methods: {
     async getOffer(id) {
@@ -97,8 +112,10 @@ export default {
       //}
 
       this.adventure = adventureInfo;
+      this.adventure.comments = this.adventure.comments.reverse()
       this.free = this.adventure.seats - this.adventure.participants.length;
-    },
+      console.log(this.adventure.comments)
+    }
   },
   beforeMount() {
     this.getOffer(this.id);
@@ -187,5 +204,12 @@ export default {
   font-size: 18px;
   text-align: center;
   margin-bottom: 2%;
+}
+
+.pic {
+  display: inline-block;
+  width: 320px;
+  height: 150px;
+  padding-left: 10px;
 }
 </style>
