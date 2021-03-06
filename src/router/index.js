@@ -37,6 +37,11 @@ const routes = [{
     path: '/adventures/:id',
     name: 'Adventure',
     component: Adventure
+  },
+  {
+    path: '/adventures/search/:category',
+    name: 'SearchByCategory',
+    component: () => import( /* webpackChunkName: "adventuresbycategory" */ '../views/category-search-page/SearchByCategory.vue')
   }
 ]
 
