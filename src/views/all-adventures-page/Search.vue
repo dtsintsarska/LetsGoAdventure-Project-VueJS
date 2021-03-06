@@ -1,14 +1,20 @@
 <template>
-  <div class="container">
+  <div class="container" @submit.prevent="handleSubmit(regex)">
     <form class="form">
       <label htmlFor="name">Search:</label>
       <input
         class="input"
         type="text"
         placeholder="Search for adventure or destination"
+        v-model.lazy="regex"
       />
-      <Button title="Search" href="/adventures/search/name/:name" />
+      <Button
+        title="Search"
+        :href="`/adventures/search/name/${regex}`"
+        @click.prevent="handleSubmit(regex)"
+      />
     </form>
+
   </div>
 </template>
 
@@ -17,6 +23,16 @@ import Button from "../../components/Button-Link.vue";
 export default {
   components: {
     Button,
+  },
+  data() {
+    return {
+      regex: "",
+    };
+  },
+  methods: {
+    handleSubmit(regex) {
+      this.regex = regex;
+    },
   },
 };
 </script>

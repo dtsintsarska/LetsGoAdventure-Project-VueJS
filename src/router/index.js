@@ -42,6 +42,11 @@ const routes = [{
     path: '/adventures/search/:category',
     name: 'SearchByCategory',
     component: () => import( /* webpackChunkName: "adventuresbycategory" */ '../views/category-search-page/SearchByCategory.vue')
+  },
+  {
+    path: '/adventures/search/name/:regex',
+    name: 'SearchByInput',
+    component: () => import( /* webpackChunkName: "adventuresbyinput" */ '../views/input-search-page/SearchByInput.vue')
   }
 ]
 

@@ -3,11 +3,16 @@
     <Loading />
   </div>
   <section v-else class="offers">
-    <h2 class="title">{{ title }}</h2>
-    <div class="upcoming">
-      <div class="list" v-for="offer in offers" :key="offer._id">
-        <SingleOffer :item="offer" />
+    <div v-if="hasResult">
+      <h2 class="title">{{ title }}</h2>
+      <div class="upcoming">
+        <div class="list" v-for="offer in offers" :key="offer._id">
+          <SingleOffer :item="offer" />
+        </div>
       </div>
+    </div>
+    <div v-else class="noresult">
+      <h3>No results found. Try again!</h3>
     </div>
   </section>
 </template>
@@ -40,14 +45,33 @@ export default {
     category: {
       type: String,
     },
+    search: {
+      type: String,
+    },
+  },
+  computed: {
+    hasResult() {
+      
+      if (this.offers.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 
   methods: {
     async getOffers() {
-
       if (this.$props.category) {
         const promise = await fetch(
           `http://localhost:9999/api/offers/search/${this.category}`
+        );
+
+        this.offers = await promise.json();
+        this.loading = false;
+      } else if (this.$props.search) {
+        const promise = await fetch(
+          `http://localhost:9999/api/offers/search/name/${this.search}`
         );
 
         this.offers = await promise.json();
@@ -70,8 +94,13 @@ export default {
 
   watch: {
     category: function (newCategory, oldCategory) {
-      if(newCategory != oldCategory) {
-        this.getOffers()
+      if (newCategory != oldCategory) {
+        this.getOffers();
+      }
+    },
+    search: function (newSearchInput, oldSearchInput) {
+      if (newSearchInput != oldSearchInput) {
+        this.getOffers();
       }
     },
   },
@@ -94,5 +123,10 @@ export default {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
   padding: 1rem;
+}
+
+.noresult {
+  text-align: center;
+  padding-top: 3rem;
 }
 </style>
