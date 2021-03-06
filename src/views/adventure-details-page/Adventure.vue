@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="!loaging">
     <section
       :style="{ 'background-image': 'url(' + adventure.image + ')' }"
       class="background"
@@ -60,12 +60,17 @@
       </section>
     </section>
   </main>
+  <div v-else>
+    <Loading />
+  </div>
 </template>
 
 <script>
+
 import Title from "../../components/Title.vue";
 import Aside from "./Aside.vue";
 import Comment from "./Comment.vue";
+import Loading from '../../components/Loading.vue'
 
 export default {
   data() {
@@ -76,12 +81,14 @@ export default {
       isEnrolled: false,
       isAdmin: false,
       showComments: false,
+      loading: true,
     };
   },
   components: {
     Title,
     Aside,
     Comment,
+    Loading,
   },
   methods: {
     async getOffer(id) {
@@ -114,10 +121,10 @@ export default {
       this.adventure = adventureInfo;
       this.adventure.comments = this.adventure.comments.reverse()
       this.free = this.adventure.seats - this.adventure.participants.length;
-      console.log(this.adventure.comments)
+      this.loading= false;
     }
   },
-  beforeMount() {
+  created() {
     this.getOffer(this.id);
   },
 };

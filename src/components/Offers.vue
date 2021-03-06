@@ -1,8 +1,11 @@
 <template>
-  <section class="offers">
+  <div v-if="loading">
+    <Loading />
+  </div>
+  <section v-else class="offers">
     <h2 class="title">{{ title }}</h2>
     <div class="upcoming">
-      <div class="list" v-for="offer in this.offers" :key="offer._id">
+      <div class="list" v-for="offer in offers" :key="offer._id">
         <SingleOffer :item="offer" />
       </div>
     </div>
@@ -11,15 +14,18 @@
 
 <script>
 import SingleOffer from "./SingleOffer.vue";
+import Loading from "./Loading.vue";
 
 export default {
   data() {
     return {
       offers: [],
+      loading: true,
     };
   },
   components: {
     SingleOffer,
+    Loading,
   },
 
   props: {
@@ -31,21 +37,43 @@ export default {
     length: {
       type: Number,
     },
+    category: {
+      type: String,
+    },
   },
 
   methods: {
     async getOffers() {
-      const promise = await fetch(`http://localhost:9999/api/offers`);
-      let receivedOffers = await promise.json();
 
-      receivedOffers = receivedOffers.slice(0, this.$props.length);
+      if (this.$props.category) {
+        const promise = await fetch(
+          `http://localhost:9999/api/offers/search/${this.category}`
+        );
 
-      this.offers = receivedOffers;
+        this.offers = await promise.json();
+        this.loading = false;
+      } else {
+        const promise = await fetch(`http://localhost:9999/api/offers`);
+        let receivedOffers = await promise.json();
+
+        receivedOffers = receivedOffers.slice(0, this.$props.length);
+
+        this.offers = receivedOffers;
+        this.loading = false;
+      }
     },
   },
 
   mounted() {
     this.getOffers();
+  },
+
+  watch: {
+    category: function (newCategory, oldCategory) {
+      if(newCategory != oldCategory) {
+        this.getOffers()
+      }
+    },
   },
 };
 </script>
