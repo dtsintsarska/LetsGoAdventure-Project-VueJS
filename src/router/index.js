@@ -47,6 +47,11 @@ const routes = [{
     path: '/adventures/search/name/:regex',
     name: 'SearchByInput',
     component: () => import( /* webpackChunkName: "adventuresbyinput" */ '../views/input-search-page/SearchByInput.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue')
   }
 ]
 
