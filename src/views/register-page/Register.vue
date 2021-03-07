@@ -39,20 +39,14 @@
       <div class="row">
         <button type="submit" class="btn btn-primary">Submit!</button>
       </div>
-
-      <span>
-        Already have an account?
-        <router-link to="/login">
-          <span style="text-underline">Sign in</span>
-        </router-link>
-      </span>
     </form>
   </div>
 </template>
 
 <script>
 import Title from "../../components/Title.vue";
-import authenticate from "../../helpers/authenticate";
+import authenticate from '../../helpers/authenticate'
+
 
 export default {
   components: {
@@ -71,11 +65,11 @@ export default {
     };
   },
   methods: {
-    async handleFormSubmit() {
+     async handleFormSubmit() {
       if (this.registerValidator()) {
         this.formData.username = this.username;
         this.formData.password = this.password;
-
+       
         await authenticate(
           "http://localhost:9999/api/user/register",
           {
@@ -84,7 +78,7 @@ export default {
           },
           (user) => {
             // context.logIn(user);
-           
+            console.log(user);
             this.$vToastify.success("Successfully create account!");
             this.$router.push("/");
           },
@@ -93,7 +87,7 @@ export default {
             this.$vToastify.error("Username is already taken!");
           }
         );
-      }
+       }  
     },
 
     registerValidator() {
@@ -116,7 +110,7 @@ export default {
       }
       if (this.password !== this.confirmedPassword) {
         this.$vToastify.error(
-          "Password and confirmed password should be the same",
+          "Password and confirmed password should be equal",
           "Passwords do not match"
         );
         return false;
@@ -124,8 +118,8 @@ export default {
 
       return true;
     },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -158,9 +152,10 @@ export default {
 .input label {
   color: snow;
   font-size: 20px;
-  margin-bottom: 0.5rem;
+  margin: 0px;
   text-align: center;
-  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .input input {
@@ -176,5 +171,14 @@ export default {
 
 .row {
   margin-bottom: 1rem;
+}
+
+.alert-danger {
+  color: red;
+  background-color: white;
+  border: 1px solid red;
+  padding: 1rem;
+  width: 25%;
+  margin: auto;
 }
 </style>

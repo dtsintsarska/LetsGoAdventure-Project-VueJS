@@ -66,7 +66,7 @@ export default {
       },
       (user) => {
         // context.logIn(user);
-       
+        console.log(user)
         this.$vToastify.success(`Nice to see you again, ${this.username}!`, "Welcome");
         this.$router.push('/');
       },
