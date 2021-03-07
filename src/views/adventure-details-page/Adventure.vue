@@ -1,5 +1,5 @@
 <template>
-  <main v-if="!loaging">
+  <main v-if="!loading">
     <section
       :style="{ 'background-image': 'url(' + adventure.image + ')' }"
       class="background"
