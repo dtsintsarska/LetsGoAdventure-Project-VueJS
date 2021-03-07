@@ -6,7 +6,11 @@ import Vuelidate from 'vuelidate'
 import VueToastify from 'vue-toastify';
 
 
-Vue.use(VueToastify);
+Vue.use(VueToastify, {
+    theme: 'light',
+    position: 'center-right'
+  }
+);
 Vue.use(Vuelidate);
 
 Vue.config.productionTip = false

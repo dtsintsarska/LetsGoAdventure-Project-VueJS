@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Title title="Register" />
-    <p>Please fill in this form to create an account</p>
+    <Title title="LogIn" />
+    <p>Sign in to check out the adventures waiting for you</p>
 
     <form @submit.prevent="handleFormSubmit()">
       <div class="input">
@@ -24,16 +24,6 @@
             placeholder="Please type your password"
           />
         </div>
-
-        <div class="row">
-          <label for="confPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confPassword"
-            v-model="confirmedPassword"
-            placeholder="Please repeat your password"
-          />
-        </div>
       </div>
 
       <div class="row">
@@ -41,9 +31,9 @@
       </div>
 
       <span>
-        Already have an account?
-        <router-link to="/login">
-          <span style="text-underline">Sign in</span>
+         New user?
+        <router-link to="/register">
+          <span style="text-underline">Create your personal account now</span>
         </router-link>
       </span>
     </form>
@@ -62,45 +52,37 @@ export default {
     return {
       username: "",
       password: "",
-      confirmedPassword: "",
-      formData: {
-        username: "",
-        password: "",
-        confirmedPassword: "",
-      },
     };
   },
   methods: {
     async handleFormSubmit() {
-      if (this.registerValidator()) {
-        this.formData.username = this.username;
-        this.formData.password = this.password;
+      if (this.loginValidator()) {
 
         await authenticate(
-          "http://localhost:9999/api/user/register",
-          {
-            username: this.formData.username,
-            password: this.formData.password,
-          },
-          (user) => {
-            // context.logIn(user);
-           
-            this.$vToastify.success("Successfully create account!");
-            this.$router.push("/");
-          },
-          (e) => {
-            console.log("Error", e);
-            this.$vToastify.error("Username is already taken!");
-          }
-        );
+      'http://localhost:9999/api/user/login',
+      {
+        username: this.username,
+        password: this.password,
+      },
+      (user) => {
+        // context.logIn(user);
+       
+        this.$vToastify.success(`Nice to see you again, ${this.username}!`, "Welcome");
+        this.$router.push('/');
+      },
+      (e) => {
+        console.log('Error', e);
+       this.$vToastify.error('Wrong username or password!', "Try again");
+      }
+    );
       }
     },
 
-    registerValidator() {
+    loginValidator() {
       if (this.username === "" || this.username.length < 3) {
         this.$vToastify.error(
           "Username should be at least 3 characters long!",
-          "Wrong username"
+          "Please provide correct username"
         );
         return false;
       }
@@ -114,13 +96,6 @@ export default {
           return false;
         }
       }
-      if (this.password !== this.confirmedPassword) {
-        this.$vToastify.error(
-          "Password and confirmed password should be the same",
-          "Passwords do not match"
-        );
-        return false;
-      }
 
       return true;
     },
@@ -129,26 +104,25 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    url("../../assets/images/RTM19-banner-web.jpg") no-repeat center;
-  background-size: cover;
+    .container {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../assets/images/fishes.jpg") no-repeat center;
+    background-size: cover;
 }
 
 .container {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  padding-bottom: 5%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-bottom: 5%;
 }
 
 .container span,
 .container p {
-  color: snow;
-  text-align: center;
-  font-size: 20px;
-  font-style: oblique;
-  padding-bottom: 2%;
+    color: snow;
+    text-align: center;
+    font-size: 20px;
+    font-style: oblique;
+    padding-bottom: 2%;
 }
 
 .input {
