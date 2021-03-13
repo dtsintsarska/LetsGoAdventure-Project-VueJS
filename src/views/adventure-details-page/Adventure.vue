@@ -12,7 +12,6 @@
         <p>
           <strong>{{ adventure.description }}</strong>
         </p>
-        <!-- <Paragraph days={days} /> -->
         <div v-for="(day, index) in adventure.days" :key="index">
           <p>DAY {{ index + 1 }}</p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
@@ -26,6 +25,7 @@
         :freeInfo="free"
         :isAdmin="isAdmin"
         :isEnrolled="isEnrolled"
+        @deleteClick="deleteSectionVisible = true"
       />
       <section>
         <div class="galery">
@@ -51,11 +51,24 @@
               No comments found! Save your seat and be the first who write
               comment about this adventure!
             </div>
-            <div v-else v-for="(comment, index) in adventure.comments"
-                :key="index">
-                <Comment :commentInfo="comment" />
+            <div
+              v-else
+              v-for="(comment, index) in adventure.comments"
+              :key="index"
+            >
+              <Comment :commentInfo="comment" />
             </div>
           </div>
+        </div>
+      </section>
+      <section v-if="deleteSectionVisible" class="delete-section">
+        <h3>Do you really want to delete "{{ adventure.destination }}"?</h3>
+        <div class="delete-section-buttons">
+          <button class="btn-delete" @click.prevent="deleteAdventure()">
+            Yes
+          </button>
+
+          <button class="btn-no" @click.prevent="handleNo()">No</button>
         </div>
       </section>
     </section>
@@ -66,11 +79,11 @@
 </template>
 
 <script>
-
 import Title from "../../components/Title.vue";
 import Aside from "./Aside.vue";
 import Comment from "./Comment.vue";
-import Loading from '../../components/Loading.vue'
+import Loading from "../../components/Loading.vue";
+import getCookie from "../../helpers/cookie";
 
 export default {
   data() {
@@ -82,6 +95,7 @@ export default {
       isAdmin: false,
       showComments: false,
       loading: true,
+      deleteSectionVisible: false,
     };
   },
   components: {
@@ -119,10 +133,24 @@ export default {
       //}
 
       this.adventure = adventureInfo;
-      this.adventure.comments = this.adventure.comments.reverse()
+      this.adventure.comments = this.adventure.comments.reverse();
       this.free = this.adventure.seats - this.adventure.participants.length;
-      this.loading= false;
-    }
+      this.loading = false;
+    },
+    async deleteAdventure() {
+      await fetch(`http://localhost:9999/api/offers/delete/${this.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: getCookie("x-auth-token"),
+        },
+      });
+      this.$vToastify.success("Successfully delete adventure");
+      this.$router.push(`/adventures`);
+    },
+    handleNo() {
+      this.deleteSectionVisible = false;
+    },
   },
   created() {
     this.getOffer(this.id);
@@ -148,6 +176,7 @@ export default {
 .container {
   background-color: white;
   display: inline-block;
+  position: relative;
 }
 
 .content {
@@ -218,5 +247,71 @@ export default {
   width: 320px;
   height: 150px;
   padding-left: 10px;
+}
+
+.delete-section {
+  position: absolute;
+  background-color: floralwhite;
+  padding: 4rem;
+  top: 4rem;
+  right: 35%;
+  border-radius: 6px;
+  box-shadow: 5px 5px 16px 5px rgba(0, 0, 0, 0.36);
+}
+
+.delete-section h3 {
+  color: #3498b9;
+  text-align: center;
+}
+
+.delete-section-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete {
+  margin-right: 16px;
+  color: white;
+  background-color: rgb(238, 70, 9);
+  outline: none;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 12px;
+  border-color: transparent;
+  transition: all ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: white;
+  color: rgb(238, 70, 9);
+  border-color: rgb(238, 70, 9);
+}
+
+.btn-no {
+  color: white;
+  background-color: rgb(10, 134, 62);
+  outline: none;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 12px;
+  border-color: transparent;
+  transition: all ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.btn-no:hover {
+  background-color: white;
+  color: rgb(10, 134, 62);
+  border-color: rgb(10, 134, 62);
 }
 </style>
