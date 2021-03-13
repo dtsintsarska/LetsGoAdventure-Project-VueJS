@@ -2,7 +2,7 @@
   <aside class="aside">
     <div classe="box">
       <section>
-        <h2>{{adventureData.destination }}</h2>
+        <h2>{{ adventureData.destination }}</h2>
         <div>
           <strong>Country: </strong>
           {{ adventureData.country }}
@@ -72,17 +72,12 @@
           </div>
         </div>
 
-        <div v-if="isAdmin" class="infoButton">
-          <!-- <Link
-                  to={{
-                    pathname: `/adventures/delete/${id}`,
-                    state: { image, destination },
-                  }}
-                > -->
-          <button type="button" class="buttonDelete">
+        <!-- <div v-if="isAdmin" class="infoButton"> -->
+
+        <div class="infoButton">
+          <button class="buttonDelete" @click.prevent="clickDelete()">
             Delete this adventure?
           </button>
-          <!-- </Link> -->
         </div>
       </section>
     </div>
@@ -93,18 +88,28 @@
 export default {
   props: {
     adventureData: {
-        type: Object
+      type: Object,
     },
     freeInfo: {
-        type: Number
+      type: Number,
     },
     isAdmin: {
-        type: Boolean
+      type: Boolean,
     },
     isEnrolled: {
-        type:Boolean
-    }
-  }
+      type: Boolean,
+    },
+  },
+  data() {
+    return {
+      image: this.adventureData.image,
+    };
+  },
+  methods: {
+    clickDelete() {
+      this.$emit("deleteClick");
+    },
+  },
 };
 </script>
 
@@ -178,6 +183,7 @@ export default {
   margin: 10px;
   cursor: pointer;
   font-size: 17px;
+  text-decoration: none;
 }
 
 .buttonDelete:hover {
