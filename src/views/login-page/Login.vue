@@ -44,6 +44,7 @@
 import Title from "../../components/Title.vue";
 import authenticate from "../../helpers/authenticate";
 
+
 export default {
   components: {
     Title,

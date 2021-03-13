@@ -33,11 +33,7 @@ const routes = [{
     name: 'Adventures',
     component: () => import( /* webpackChunkName: "adventures" */ '../views/all-adventures-page/Adventures.vue')
   },
-  {
-    path: '/adventures/:id',
-    name: 'Adventure',
-    component: Adventure
-  },
+  
   {
     path: '/adventures/search/:category',
     name: 'SearchByCategory',
@@ -58,6 +54,17 @@ const routes = [{
     name: 'Login',
     component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue')
   },
+  {
+    path: '/adventures/create-new',
+    name: 'Create',
+    component: () => import( /* webpackChunkName: "create" */ '../views/create-adventure-page/CreateAdventure.vue')
+  },
+  {
+    path: '/adventures/:id',
+    name: 'Adventure',
+    component: Adventure
+  },
+
   {
     path: '*',
     name: '404',
