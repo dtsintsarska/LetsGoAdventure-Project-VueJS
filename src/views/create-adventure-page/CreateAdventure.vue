@@ -104,6 +104,13 @@
           placeholder="Choose level - easy, advanced, experts"
         />
       </div>
+      <div class="uploadMain">
+        <label>Main Image: </label>
+        <button @click.prevent="openWidget('main')">Upload Image</button>
+        <div v-if="image">
+          <img :src="image" alt="Main" />
+        </div>
+      </div>
 
       <div class="upload">
         <div>
@@ -134,13 +141,6 @@
             <img :src="galleryPhotoFour" alt="Gallery" />
           </div>
         </div>
-        <div>
-          Main Image:
-          <button @click.prevent="openWidget('main')">Upload Image</button>
-          <div v-if="image">
-            <img :src="image" alt="Main" />
-          </div>
-        </div>
       </div>
 
       <button type="submit" class="btn btn-primary">Submit!</button>
@@ -150,7 +150,7 @@
 
 <script>
 import Title from "../../components/Title.vue";
-import getCookie from '../../helpers/cookie';
+import getCookie from "../../helpers/cookie";
 export default {
   data() {
     return {
@@ -369,10 +369,11 @@ export default {
   resize: none;
 }
 
-.upload {
-  display: block;
+.container .upload {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.upload > div {
+.upload div {
   color: #3498b9;
   font-weight: bold;
   margin-bottom: 40px;
@@ -382,17 +383,40 @@ export default {
   text-align: center;
 }
 
-.upload button {
+.upload button,
+.uploadMain button {
   background: #3498b9;
   color: snow;
   padding: 2%;
   width: 25%;
   border-radius: 15px;
   border: none;
-  border: 1px solid white;
+  border: 2px solid white;
   margin: 0px;
   cursor: pointer;
   font-size: 15px;
+  transition: all ease-in-out 200ms;
+}
+
+.uploadMain button {
+  padding: 1%;
+}
+
+.upload button:hover,
+.container .uploadMain button:hover {
+  background-color: white;
+  color: #3498b9;
+  border: 2px solid #3498b9;
+
+}
+
+.uploadMain {
+  align-items: center;
+}
+
+.uploadMain img {
+  width: 400px;
+  margin-top: 16px;
 }
 
 .upload img {

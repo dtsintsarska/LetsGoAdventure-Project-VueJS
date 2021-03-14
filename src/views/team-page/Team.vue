@@ -75,6 +75,7 @@ export default {
   border-radius: 0.6rem;
   float: left;
   padding: 5px;
+  margin-right: 16px;
 }
 
 .member h2 {

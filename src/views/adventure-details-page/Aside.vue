@@ -115,18 +115,22 @@ export default {
 
 <style scoped>
 .aside {
-  display: inline-block;
+ 
   width: 30%;
-  padding-left: 25px;
+  padding-left: 32px;
   margin-left: 25px;
-  font-style: italic;
-  background-color: lightgray;
+  background-color: beige;
   margin-right: 1%;
   text-align: left;
   padding-bottom: 2%;
-  margin-bottom: 5%;
-  align-items: center;
-  vertical-align: top;
+  padding-top: 2%;
+  margin-top: 2%;
+  border-radius: 6px;
+  box-shadow: -2px 4px 25px 10px rgba(7,7,7,0.13);
+}
+
+.aside div {
+  margin-bottom: 8px;
 }
 
 .infoButton {
