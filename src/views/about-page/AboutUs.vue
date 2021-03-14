@@ -83,5 +83,6 @@ export default {
 
 .buttons {
     text-align: center;
+    margin-bottom: 2rem;
 }
 </style>

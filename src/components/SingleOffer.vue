@@ -54,6 +54,7 @@ export default {
 .offer img {
   width: 100%;
   height: 300px;
+  border-radius: 6px;
 }
 
 .info {

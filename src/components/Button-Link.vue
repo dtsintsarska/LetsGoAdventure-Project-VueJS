@@ -28,15 +28,20 @@ export default {
   width: 120px;
   border-radius: 15px;
   border: none;
-  border: 1px solid white;
-  margin: 10px;
+  border: 2px solid white;
+  margin-top: 10px;
   cursor: pointer;
   font-size: 17px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  transition: all ease-in-out 200ms;
+  outline: none;
 }
 
 .btn:hover {
   background-color: #fff;
-  border: 1px solid #3498b9;
+  border: 2px solid #3498b9;
   color: #3498b9;
+  box-shadow: 5px 5px 16px 5px rgba(51,82,255,0.36);
 }
 </style>
