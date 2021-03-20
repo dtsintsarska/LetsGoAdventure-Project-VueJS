@@ -55,6 +55,11 @@ const routes = [{
     component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue')
   },
   {
+    path: '/logout',
+    name: 'Logout',
+    component: () => import( /* webpackChunkName: "logout" */ '../views/logout-page/Logout.vue')
+  },
+  {
     path: '/adventures/create-new',
     name: 'Create',
     component: () => import( /* webpackChunkName: "create" */ '../views/create-adventure-page/CreateAdventure.vue')
