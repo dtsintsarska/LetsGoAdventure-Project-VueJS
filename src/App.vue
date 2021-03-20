@@ -15,6 +15,9 @@ export default {
     Header,
     Footer,
   },
+  async created() {
+    await this.$store.dispatch("verifyUser");
+  },
 };
 </script>
 

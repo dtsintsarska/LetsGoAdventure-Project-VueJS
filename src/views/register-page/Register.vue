@@ -76,9 +76,9 @@ export default {
             username: this.formData.username,
             password: this.formData.password,
           },
-          (user) => {
-            // context.logIn(user);
-            console.log(user);
+          (userInfo) => {
+            this.$store.commit("logIn", userInfo);
+            
             this.$vToastify.success("Successfully create account!");
             this.$router.push("/");
           },

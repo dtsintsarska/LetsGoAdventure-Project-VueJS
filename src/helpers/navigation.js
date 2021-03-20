@@ -128,6 +128,7 @@ const getNavigation = (user, isAdmin) => {
         }
     ]
     const loggedIn = user && user.loggedIn
+    console.log(user.loggedIn)
     if (loggedIn && isAdmin) {
         return adminLinks
     } else if (loggedIn) {
