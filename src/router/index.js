@@ -2,8 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from '../views/Homepage.vue'
 import Adventure from '../views/adventure-details-page/Adventure.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
+
+const isLoggedIn = store.state.isAdmin
+console.log(isLoggedIn)
 
 const routes = [{
     path: '/',
@@ -47,12 +51,29 @@ const routes = [{
   {
     path: '/register',
     name: 'Register',
-    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue')
+    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue'),
+    beforeEnter: (to, from, next) => {
+      console.log(store.getters)
+      console.log(store.getters.getUser.id)
+      if(store.getters.getUser.id) {
+        next('/')
+      }
+      next()
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue')
+    component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue'),
+    beforeEnter: (to, from, next) => {
+      console.log(store.getters)
+      console.log(store.getters.getUser)
+      if(store.getters.getUser.id) {
+        next('/')
+      }
+      next()
+    }
+
   },
   {
     path: '/logout',

@@ -24,7 +24,7 @@ export default new Vuex.Store({
         state.isAdmin = true;
       }
       state.user = {...userInfo, loggedIn: true};
-      console.log(state.user)
+     
     },
     logOut(state) {
       document.cookie =
@@ -34,14 +34,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // async getAllCharacters(context) {
-    //     // To access another store https://vuex.vuejs.org/guide/modules.html#module-local-state
-    //     // console.log('data fro manother module', context.rootState.instance.usersModule)
-    //     context.commit('setLoadingState', true);
-    //     const res = await axios.get('https://rickandmortyapi.com/api/character');
-    //     context.commit('setCharacters', res.data.results);
-    //     context.commit('setLoadingState', false);
-    // }
     async verifyUser(context) {
       const token = getCookie('x-auth-token');
 

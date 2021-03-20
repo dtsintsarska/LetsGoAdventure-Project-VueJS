@@ -104,37 +104,42 @@ export default {
     Comment,
     Loading,
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
+    isUserAdmin() {
+      return this.$store.getters.getIsAdmin;
+    },
+  },
   methods: {
     async getOffer(id) {
       const response = await fetch(
         `http://localhost:9999/api/offers/details/${id}`
       );
 
-      // if (!response.ok) {
-      //   this.props.history.push('/home');
-      // }
+      if (!response.ok) {
+        this.$router.push("/");
+      }
 
       const adventureInfo = await response.json();
-
-      // if (this.context.user.id) {
-      //   adventure.participants.map((part) => {
-      //     if (part.id.toString() === this.context.user.id.toString()) {
-      //       this.setState({
-      //         isEnrolled: true,
-      //       });
-      //     }
-      //   });
-
-      //   if (this.context.isAdmin) {
-      //     this.setState({
-      //       isAdmin: true,
-      //     });
-      //   }
-      //}
 
       this.adventure = adventureInfo;
       this.adventure.comments = this.adventure.comments.reverse();
       this.free = this.adventure.seats - this.adventure.participants.length;
+
+      if (this.user.id) {
+        this.adventure.participants.map((part) => {
+          if (part.id.toString() === this.user.id.toString()) {
+            this.isEnrolled = true;
+          }
+        });
+      }
+
+      if (this.isUserAdmin) {
+        this.isAdmin = true;
+      }
+
       this.loading = false;
     },
     async deleteAdventure() {

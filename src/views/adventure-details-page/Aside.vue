@@ -43,14 +43,9 @@
         <div v-if="!isEnrolled" class="infoButton">
           <strong>Do you want to become part of this adventure?</strong>
           <div>
-            <!-- <Link
-                    to={{
-                      pathname: `/adventures/enroll/${id}`,
-                      state: { image, destination },
-                    }}
-                  > -->
-            <button type="button" class="button">Save your seat here!</button>
-            <!-- </Link> -->
+            <router-link :to="'/adventures/enroll/' + id">
+              <button type="button" class="button">Save your seat here!</button>
+            </router-link>
           </div>
         </div>
         <div v-else class="infoButton">
@@ -59,22 +54,15 @@
             comment?
           </strong>
           <div>
-            <!-- <Link
-                    to={{
-                      pathname: `/adventures/comments/${id}`,
-                      state: { image, destination },
-                    }}
-                  > -->
-            <button type="button" class="buttonComment">
-              Write a comment about this adventure!
-            </button>
-            <!-- </Link> -->
+            <router-link :to="'/adventures/comments/' + id">
+              <button type="button" class="buttonComment">
+                Write a comment about this adventure!
+              </button>
+            </router-link>
           </div>
         </div>
 
-        <!-- <div v-if="isAdmin" class="infoButton"> -->
-
-        <div class="infoButton">
+        <div v-if="isAdmin" class="infoButton">
           <button class="buttonDelete" @click.prevent="clickDelete()">
             Delete this adventure?
           </button>
@@ -103,6 +91,7 @@ export default {
   data() {
     return {
       image: this.adventureData.image,
+      id: this.$route.params.id,
     };
   },
   methods: {
@@ -115,7 +104,6 @@ export default {
 
 <style scoped>
 .aside {
- 
   width: 30%;
   padding-left: 32px;
   margin-left: 25px;
@@ -126,7 +114,7 @@ export default {
   padding-top: 2%;
   margin-top: 2%;
   border-radius: 6px;
-  box-shadow: -2px 4px 25px 10px rgba(7,7,7,0.13);
+  box-shadow: -2px 4px 25px 10px rgba(7, 7, 7, 0.13);
 }
 
 .aside div {

@@ -49,7 +49,6 @@ export default {
 
 
 .advantages {
-    /* //padding: 20px; */
     padding-left: 0%;
     padding-top: 1%;
     background: #3498b9;
