@@ -3,6 +3,7 @@
     <router-link to="/">
       <img src="../assets/images/logo.png" alt="Logo" class="siteTitle" />
     </router-link>
+    {{ user }}
 
     <nav>
       <ul>
@@ -42,8 +43,30 @@ import getNavigation from "../helpers/navigation";
 export default {
   data() {
     return {
-      links: getNavigation(),
+      links: [],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.getUser;
+    },
+    isAdmin() {
+      return this.$store.getters.getIsAdmin;
+    },
+  },
+  methods: {
+    getLinks() {
+      let navigation = getNavigation(this.user, this.isAdmin);
+      this.links = navigation;
+    },
+  },
+  watch: {
+    user() {
+      this.getLinks();
+    },
+  },
+  mounted() {
+    this.getLinks();
   },
 };
 </script>
