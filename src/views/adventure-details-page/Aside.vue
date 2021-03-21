@@ -109,7 +109,6 @@ export default {
 
 <style scoped>
 .aside {
-  width: 30%;
   padding-left: 32px;
   margin-left: 25px;
   background-color: beige;
