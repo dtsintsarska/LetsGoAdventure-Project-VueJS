@@ -143,7 +143,8 @@ export default {
         );
         this.$router.push(`/adventures/${this.adventureId}`);
       } catch (error) {
-        this.$vToastify.error("Something went wrong, try again later");
+        this.$vToastify.error("Something went wrong, try again later")
+        this.$router.push('/adventures');
       }
     },
     async getAdventure() {

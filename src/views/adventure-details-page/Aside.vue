@@ -54,11 +54,13 @@
             comment?
           </strong>
           <div>
-            <router-link :to="`/adventures/comments/${id}`">
-              <button type="button" class="buttonComment">
-                Write a comment about this adventure!
-              </button>
-            </router-link>
+            <button
+              type="button"
+              class="buttonComment"
+              @click.prevent="clickComment()"
+            >
+              Write a comment about this adventure?
+            </button>
           </div>
         </div>
 
@@ -98,6 +100,9 @@ export default {
     clickDelete() {
       this.$emit("deleteClick");
     },
+    clickComment() {
+      this.$emit('writeCommentClick');
+    }
   },
 };
 </script>
