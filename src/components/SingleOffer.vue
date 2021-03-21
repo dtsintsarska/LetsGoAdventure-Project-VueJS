@@ -17,17 +17,8 @@
       <div class="buttons">
         <div>
           <Button  title='See more' :href="'/adventures/'+ item._id" />
-          <!-- <button type="button" class="button">See more</button> -->
         </div>
-        <!-- {isAdmin ? (
-            <div onClick={onClick}>
-              <Button title='Participants' onClick={onClick} />
-            </div>
-          ) : null} -->
       </div>
-      <!-- <div class="participants">
-          {show ? <Participants participants={participants} /> : null}
-        </div> -->
     </div>
   </div>
 </template>
