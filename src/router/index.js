@@ -80,6 +80,11 @@ const routes = [{
     component: () => import( /* webpackChunkName: "create" */ '../views/create-adventure-page/CreateAdventure.vue')
   },
   {
+    path: '/adventures/enroll/:id',
+    name: 'Enroll',
+    component: () => import( /* webpackChunkName: "enroll */ '../views/enroll-adventure/EnrollPage.vue')
+  },
+  {
     path: '/adventures/:id',
     name: 'Adventure',
     component: Adventure
