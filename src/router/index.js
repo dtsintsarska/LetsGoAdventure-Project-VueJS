@@ -1,13 +1,11 @@
 import Vue from 'vue'
+import store from '../store'
 import VueRouter from 'vue-router'
 import HomePage from '../views/Homepage.vue'
-import Adventure from '../views/adventure-details-page/Adventure.vue'
-import store from '../store'
+import Adventure from '../views/adventure-details-page/Adventure.vue';
+
 
 Vue.use(VueRouter)
-
-const isLoggedIn = store.state.isAdmin
-console.log(isLoggedIn)
 
 const routes = [{
     path: '/',
@@ -37,7 +35,7 @@ const routes = [{
     name: 'Adventures',
     component: () => import( /* webpackChunkName: "adventures" */ '../views/all-adventures-page/Adventures.vue')
   },
-  
+
   {
     path: '/adventures/search/:category',
     name: 'SearchByCategory',
@@ -51,28 +49,24 @@ const routes = [{
   {
     path: '/register',
     name: 'Register',
-    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue'),
-    beforeEnter: (to, from, next) => {
-      console.log(store.getters)
-      console.log(store.getters.getUser.id)
-      if(store.getters.getUser.id) {
-        next('/')
-      }
-      next()
-    }
+    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue')
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue'),
-    beforeEnter: (to, from, next) => {
-      console.log(store.getters)
-      console.log(store.getters.getUser)
-      if(store.getters.getUser.id) {
-        next('/')
+    beforeEnter: async (from, to, next) => {
+      await store.dispatch('verifyUser')
+      console.log(store.getters.isLoggedIn)
+      if (store.getters.isLoggedIn) {
+        return router.push({
+          name: 'Home'
+        })
+      } else {
+        next()
       }
-      next()
-    }
+
+    },
 
   },
   {
@@ -101,7 +95,7 @@ const routes = [{
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 
 export default router

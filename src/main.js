@@ -16,8 +16,9 @@ Vue.use(VueToastify, {
 
 Vue.config.productionTip = false
 
-new Vue({
+new Vue({ 
+  store,
   router,
   render: h => h(App),
-  store
+ 
 }).$mount('#app')

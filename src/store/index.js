@@ -7,8 +7,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: {},
+    user: null,
     isAdmin: false,
+    loggedIn: false,
   },
   getters: {
     getUser(state) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     getIsAdmin(state) {
       return state.isAdmin;
     },
+    isLoggedIn(state) {
+      return state.loggedIn
+    }
   },
   mutations: {
     logIn(state, userInfo) {
@@ -24,13 +28,15 @@ export default new Vuex.Store({
         state.isAdmin = true;
       }
       state.user = {...userInfo, loggedIn: true};
+      state.loggedIn = true;
      
     },
     logOut(state) {
       document.cookie =
         'x-auth-token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
-      state.user = {};
+      state.user = null;
       state.isAdmin = false;
+      state.loggedIn = false;
     },
   },
   actions: {

@@ -43,7 +43,7 @@
         <div v-if="!isEnrolled" class="infoButton">
           <strong>Do you want to become part of this adventure?</strong>
           <div>
-            <router-link :to="'/adventures/enroll/' + id">
+            <router-link :to="`/adventures/enroll/${id}`">
               <button type="button" class="button">Save your seat here!</button>
             </router-link>
           </div>
@@ -54,7 +54,7 @@
             comment?
           </strong>
           <div>
-            <router-link :to="'/adventures/comments/' + id">
+            <router-link :to="`/adventures/comments/${id}`">
               <button type="button" class="buttonComment">
                 Write a comment about this adventure!
               </button>
