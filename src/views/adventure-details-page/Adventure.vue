@@ -26,6 +26,7 @@
         :isAdmin="isAdmin"
         :isEnrolled="isEnrolled"
         @deleteClick="deleteSectionVisible = true"
+        @writeCommentClick="writeCommentSection = true"
       />
       <section>
         <div class="galery">
@@ -71,6 +72,29 @@
           <button class="btn-no" @click.prevent="handleNo()">No</button>
         </div>
       </section>
+      <section v-if="writeCommentSection" class="comment-section">
+        <div class="subtitle">
+          <h3 >
+            Post your comment and let us know what you think about adventure "{{
+              adventure.destination
+            }}"
+          </h3>
+        </div>
+        <div>
+          <textarea
+            class="comment-text-area"
+            v-model="comment"
+            placeholder="Write your comment here..."
+          ></textarea>
+          <div class="comment-buttons">
+          <button class="btn-post" @click.prevent="writeComment()">
+            Post Comment
+          </button>
+
+          <button class="btn-cancel" @click.prevent="handleCancel()">Cancel</button>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
   <div v-else>
@@ -96,6 +120,8 @@ export default {
       showComments: false,
       loading: true,
       deleteSectionVisible: false,
+      writeCommentSection: false,
+      comment: "",
     };
   },
   components: {
@@ -113,9 +139,9 @@ export default {
     },
   },
   methods: {
-    async getOffer(id) {
+    async getOffer() {
       const response = await fetch(
-        `http://localhost:9999/api/offers/details/${id}`
+        `http://localhost:9999/api/offers/details/${this.id}`
       );
 
       if (!response.ok) {
@@ -128,7 +154,7 @@ export default {
       this.adventure.comments = this.adventure.comments.reverse();
       this.free = this.adventure.seats - this.adventure.participants.length;
 
-      if (this.user.id) {
+      if (this.user) {
         this.adventure.participants.map((part) => {
           if (part.id.toString() === this.user.id.toString()) {
             this.isEnrolled = true;
@@ -156,9 +182,34 @@ export default {
     handleNo() {
       this.deleteSectionVisible = false;
     },
+
+    async writeComment() {
+
+    await fetch(`http://localhost:9999/api/offers/comment/${this.id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username: this.user.username,
+        author: this.user.id,
+        comment: this.comment
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getCookie('x-auth-token'),
+      },
+    });
+   
+    this.$vToastify.success('Successfully post comment!');
+    this.writeCommentSection = false;
+    this.getOffer()
+
+    },
+
+    handleCancel() {
+      this.writeCommentSection = false;
+    }
   },
-  created() {
-    this.getOffer(this.id);
+  mounted() {
+    this.getOffer();
   },
 };
 </script>
@@ -319,4 +370,84 @@ export default {
   color: rgb(10, 134, 62);
   border-color: rgb(10, 134, 62);
 }
+
+.comment-section {
+  position: absolute;
+  background-color: burlywood;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  top: 4rem;
+  right: 20%;
+  border-radius: 6px;
+  box-shadow: 5px 5px 16px 5px rgba(0, 0, 0, 0.36);
+}
+
+.comment-text-area {
+  display: block;
+  width: 80%;
+  margin: auto;
+  height: 150px;
+  margin-bottom: 2rem;
+}
+
+.comment-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  margin: auto;
+
+}
+
+.subtitle {
+  width: 80%;
+  margin:auto;
+  margin-bottom: 2rem;
+  text-align: center
+}
+
+.btn-post {
+   margin-right: 16px;
+  color: white;
+  background-color: rgb(18, 116, 18);
+  outline: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 12px;
+  border-color: transparent;
+  transition: all ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.btn-post:hover {
+  background-color: white;
+  color: rgb(18, 116, 18);
+  border-color: rgb(18, 116, 18);
+}
+
+.btn-cancel {
+  color: white;
+  background-color: rgb(185, 9, 9);
+  outline: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 12px;
+  border-color: transparent;
+  transition: all ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: white;
+  color: rgb(185, 9, 9);
+  border-color:rgb(185, 9, 9);
+}
+
 </style>
