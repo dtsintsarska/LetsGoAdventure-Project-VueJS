@@ -1,11 +1,19 @@
 import Vue from 'vue'
-import store from '../store'
 import VueRouter from 'vue-router'
 import HomePage from '../views/Homepage.vue'
 import Adventure from '../views/adventure-details-page/Adventure.vue';
+import getCookie from '../helpers/cookie'
 
 
 Vue.use(VueRouter)
+
+function getAuth() {
+  const token = getCookie("x-auth-token");
+  if (token) {
+    return true
+  }
+  return false
+}
 
 const routes = [{
     path: '/',
@@ -49,30 +57,39 @@ const routes = [{
   {
     path: '/register',
     name: 'Register',
-    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue')
+    component: () => import( /* webpackChunkName: "register" */ '../views/register-page/Register.vue'),
+    beforeEnter: (from, to, next) => {
+      if (getAuth()) {
+        next('/')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import( /* webpackChunkName: "login" */ '../views/login-page/Login.vue'),
-    beforeEnter: async (from, to, next) => {
-      await store.dispatch('verifyUser')
-      console.log(store.getters.isLoggedIn)
-      if (store.getters.isLoggedIn) {
-        return router.push({
-          name: 'Home'
-        })
+    beforeEnter: (from, to, next) => {
+      if (getAuth()) {
+        next('/')
       } else {
         next()
       }
-
     },
 
   },
   {
     path: '/profile/:id',
     name: 'Profile',
-    component: () => import( /* webpackChunkName: "profile" */ '../views/profile-page/ProfileUser.vue')
+    component: () => import( /* webpackChunkName: "profile" */ '../views/profile-page/ProfileUser.vue'),
+    beforeEnter: (from, to, next) => {
+      if (getAuth()) {
+        next('/')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/logout',
@@ -87,7 +104,14 @@ const routes = [{
   {
     path: '/adventures/enroll/:id',
     name: 'Enroll',
-    component: () => import( /* webpackChunkName: "enroll */ '../views/enroll-adventure/EnrollPage.vue')
+    component: () => import( /* webpackChunkName: "enroll */ '../views/enroll-adventure/EnrollPage.vue'),
+    beforeEnter: (from, to, next) => {
+      if (getAuth()) {
+        next('/adventures')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/adventures/:id',
