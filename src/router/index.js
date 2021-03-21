@@ -70,6 +70,11 @@ const routes = [{
 
   },
   {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: () => import( /* webpackChunkName: "profile" */ '../views/profile-page/ProfileUser.vue')
+  },
+  {
     path: '/logout',
     name: 'Logout',
     component: () => import( /* webpackChunkName: "logout" */ '../views/logout-page/Logout.vue')
