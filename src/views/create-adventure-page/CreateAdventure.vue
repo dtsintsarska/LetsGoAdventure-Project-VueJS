@@ -76,13 +76,12 @@
       </div>
       <div>
         <label for="category">Category</label>
-        <input
-          type="text"
-          label="Category"
-          id="category"
-          placeholder="Choose category - MTB, Mountain or Sea"
-          v-model="category"
-        />
+        <select v-model="category" class="select-category">
+          <option disabled value="">Please select one</option>
+          <option>MTB</option>
+          <option>Mountain</option>
+          <option>Sea</option>
+        </select>
       </div>
       <div>
         <label for="price">Price</label>
@@ -96,13 +95,12 @@
       </div>
       <div>
         <label for="level">Level</label>
-        <input
-          type="text"
-          v-model="level"
-          label="Level"
-          id="level"
-          placeholder="Choose level - easy, advanced, experts"
-        />
+        <select v-model="level" class="select-category">
+          <option disabled value="">Please select one</option>
+          <option>Easy</option>
+          <option>Advanced</option>
+          <option>Expert</option>
+        </select>
       </div>
       <div class="uploadMain">
         <label>Main Image: </label>
@@ -245,8 +243,7 @@ export default {
       widget.open();
     },
     adventureValidator() {
-      const allowedCategories = ["MTB", "Mountain", "Sea"];
-      const allowedLevels = ["easy", "advanced", "experts"];
+     
       const dateRegex = new RegExp(/[0-9]{2}\s[A-za-z]+\s[0-9]{4}/i);
 
       if (this.destination.length <= 2 || this.destination === "") {
@@ -291,21 +288,8 @@ export default {
         return false;
       }
 
-      if (this.category === "" || !allowedCategories.includes(this.category)) {
-        this.$vToastify.error(
-          "Category must be one of the following: MTB, Mountain or Sea"
-        );
-        return false;
-      }
       if (this.price < 0 || this.price === "") {
         this.$vToastify.error("Price must be positive number");
-        return false;
-      }
-
-      if (this.level === "" || !allowedLevels.includes(this.level)) {
-        this.$vToastify.error(
-          "Level must be one of the following: easy, advanced or experts"
-        );
         return false;
       }
 
@@ -318,6 +302,19 @@ export default {
 
       return true;
     },
+    getInfo() {
+      if (!this.admin) {
+        this.$router.push("/");
+      }
+    },
+  },
+  computed: {
+    admin() {
+      return this.$store.getters.getIsAdmin;
+    },
+  },
+  mounted() {
+    this.getInfo();
   },
 };
 </script>
@@ -369,6 +366,16 @@ export default {
   resize: none;
 }
 
+.select-category{
+  border: 2px solid #3498b9;
+  width: 30%;
+  text-align: center;
+  padding: 12px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 0.5rem;
+}
+
 .container .upload {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -407,7 +414,6 @@ export default {
   background-color: white;
   color: #3498b9;
   border: 2px solid #3498b9;
-
 }
 
 .uploadMain {

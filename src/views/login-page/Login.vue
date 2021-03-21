@@ -31,7 +31,7 @@
       </div>
 
       <span>
-         New user?
+        New user?
         <router-link to="/register">
           <span style="text-underline">Create your personal account now</span>
         </router-link>
@@ -43,7 +43,6 @@
 <script>
 import Title from "../../components/Title.vue";
 import authenticate from "../../helpers/authenticate";
-
 
 export default {
   components: {
@@ -58,24 +57,26 @@ export default {
   methods: {
     async handleFormSubmit() {
       if (this.loginValidator()) {
-
         await authenticate(
-      'http://localhost:9999/api/user/login',
-      {
-        username: this.username,
-        password: this.password,
-      },
-      (userInfo) => {
-        this.$store.commit("logIn", userInfo);
-      
-        this.$vToastify.success(`Nice to see you again, ${this.username}!`, "Welcome");
-        this.$router.push('/');
-      },
-      (e) => {
-        console.log('Error', e);
-       this.$vToastify.error('Wrong username or password!', "Try again");
-      }
-    );
+          "http://localhost:9999/api/user/login",
+          {
+            username: this.username,
+            password: this.password,
+          },
+          (userInfo) => {
+            this.$store.commit("logIn", userInfo);
+
+            this.$vToastify.success(
+              `Nice to see you again, ${this.username}!`,
+              "Welcome"
+            );
+            this.$router.push("/");
+          },
+          (e) => {
+            console.log("Error", e);
+            this.$vToastify.error("Wrong username or password!", "Try again");
+          }
+        );
       }
     },
 
@@ -105,25 +106,26 @@ export default {
 </script>
 
 <style scoped>
-    .container {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../assets/images/fishes.jpg") no-repeat center;
-    background-size: cover;
+.container {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../assets/images/fishes.jpg") no-repeat center;
+  background-size: cover;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    padding-bottom: 5%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-bottom: 5%;
 }
 
 .container span,
 .container p {
-    color: snow;
-    text-align: center;
-    font-size: 20px;
-    font-style: oblique;
-    padding-bottom: 2%;
+  color: snow;
+  text-align: center;
+  font-size: 20px;
+  font-style: oblique;
+  padding-bottom: 2%;
 }
 
 .input {
