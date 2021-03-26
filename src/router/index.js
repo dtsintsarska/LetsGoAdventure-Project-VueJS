@@ -85,9 +85,9 @@ const routes = [{
     component: () => import( /* webpackChunkName: "profile" */ '../views/profile-page/ProfileUser.vue'),
     beforeEnter: (from, to, next) => {
       if (getAuth()) {
-        next('/')
+       next()
       } else {
-        next()
+         next('/')
       }
     },
   },
@@ -107,9 +107,9 @@ const routes = [{
     component: () => import( /* webpackChunkName: "enroll */ '../views/enroll-adventure/EnrollPage.vue'),
     beforeEnter: (from, to, next) => {
       if (getAuth()) {
-        next('/adventures')
-      } else {
         next()
+      } else {
+        next('/login')
       }
     },
   },
