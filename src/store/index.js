@@ -29,6 +29,7 @@ export default new Vuex.Store({
       }
       state.user = {...userInfo, loggedIn: true};
       state.loggedIn = true;
+      localStorage.setItem('user', 'logged')
      
     },
     logOut(state) {
@@ -37,18 +38,20 @@ export default new Vuex.Store({
       state.user = null;
       state.isAdmin = false;
       state.loggedIn = false;
+      localStorage.clear()
     },
   },
   actions: {
     async verifyUser(context) {
       const token = getCookie('x-auth-token');
+      const storage = localStorage.getItem('user')
 
-      if (!token) {
+      if (storage != 'logged') {
         context.commit('logOut');
         return;
       }
-
-      fetch('http://localhost:9999/api/user/verify', {
+      
+     fetch('http://localhost:9999/api/user/verify', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
