@@ -3,8 +3,7 @@
     <router-link to="/">
       <img src="../assets/images/logo.png" alt="Logo" class="siteTitle" />
     </router-link>
-    {{ user }}
-
+   
     <nav>
       <ul>
         <li v-for="(link, index) in links" :key="index">

@@ -6,7 +6,7 @@
     <div v-if="hasResult">
       <h2 class="title">{{ title }}</h2>
       <div class="upcoming">
-        <div class="list" v-for="offer in offers" :key="offer._id">
+        <div v-for="offer in offers" :key="offer._id">
           <SingleOffer :item="offer" />
         </div>
       </div>

@@ -2,14 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from '../views/Homepage.vue'
 import Adventure from '../views/adventure-details-page/Adventure.vue';
-import getCookie from '../helpers/cookie'
 
 
 Vue.use(VueRouter)
 
 function getAuth() {
-  const token = getCookie("x-auth-token");
-  if (token) {
+  const storage = localStorage.getItem('user')
+
+  if (storage =='logged') {
     return true
   }
   return false
