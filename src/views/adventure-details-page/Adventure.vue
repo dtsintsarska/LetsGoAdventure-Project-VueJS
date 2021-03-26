@@ -27,6 +27,7 @@
         :isEnrolled="isEnrolled"
         @deleteClick="deleteSectionVisible = true"
         @writeCommentClick="writeCommentSection = true"
+        @showParticipantsClick="showParticipants = true"
       />
       <section>
         <div class="galery">
@@ -74,7 +75,7 @@
       </section>
       <section v-if="writeCommentSection" class="comment-section">
         <div class="subtitle">
-          <h3 >
+          <h3>
             Post your comment and let us know what you think about adventure "{{
               adventure.destination
             }}"
@@ -87,12 +88,38 @@
             placeholder="Write your comment here..."
           ></textarea>
           <div class="comment-buttons">
-          <button class="btn-post" @click.prevent="writeComment()">
-            Post Comment
-          </button>
+            <button class="btn-post" @click.prevent="writeComment()">
+              Post Comment
+            </button>
 
-          <button class="btn-cancel" @click.prevent="handleCancel()">Cancel</button>
+            <button class="btn-cancel" @click.prevent="handleCancel()">
+              Cancel
+            </button>
           </div>
+        </div>
+      </section>
+      <section v-if="showParticipants" class="participants-section">
+        <h3>Participants in "{{ adventure.destination }}"</h3>
+        <div>
+          <div
+            v-for="(participant, index) in adventure.participants"
+            :key="index"
+          >
+            <div class="participants">
+              <span>{{ index + 1 }}. </span>
+              <div>
+                <p>
+                  <strong>Name: </strong> {{ participant.firstName }}
+                  {{ participant.lastName }}
+                </p>
+                <p><strong>Email: </strong> {{ participant.email }}</p>
+                <p><strong>Phone: </strong> {{ participant.phone }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button class="btn-close" @click.prevent="handleNo()">X</button>
         </div>
       </section>
     </section>
@@ -103,11 +130,11 @@
 </template>
 
 <script>
-import Title from "../../components/Title.vue";
-import Aside from "./Aside.vue";
-import Comment from "./Comment.vue";
-import Loading from "../../components/Loading.vue";
-import getCookie from "../../helpers/cookie";
+import Title from '../../components/Title.vue';
+import Aside from './Aside.vue';
+import Comment from './Comment.vue';
+import Loading from '../../components/Loading.vue';
+import getCookie from '../../helpers/cookie';
 
 export default {
   data() {
@@ -121,7 +148,8 @@ export default {
       loading: true,
       deleteSectionVisible: false,
       writeCommentSection: false,
-      comment: "",
+      comment: '',
+      showParticipants: false,
     };
   },
   components: {
@@ -145,7 +173,7 @@ export default {
       );
 
       if (!response.ok) {
-        this.$router.push("/");
+        this.$router.push('/');
       }
 
       const adventureInfo = await response.json();
@@ -170,43 +198,42 @@ export default {
     },
     async deleteAdventure() {
       await fetch(`http://localhost:9999/api/offers/delete/${this.id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: getCookie("x-auth-token"),
+          'Content-Type': 'application/json',
+          Authorization: getCookie('x-auth-token'),
         },
       });
-      this.$vToastify.success("Successfully delete adventure");
+      this.$vToastify.success('Successfully delete adventure');
       this.$router.push(`/adventures`);
     },
     handleNo() {
       this.deleteSectionVisible = false;
+      this.showParticipants = false;
     },
 
     async writeComment() {
+      await fetch(`http://localhost:9999/api/offers/comment/${this.id}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          username: this.user.username,
+          author: this.user.id,
+          comment: this.comment,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getCookie('x-auth-token'),
+        },
+      });
 
-    await fetch(`http://localhost:9999/api/offers/comment/${this.id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        username: this.user.username,
-        author: this.user.id,
-        comment: this.comment
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: getCookie('x-auth-token'),
-      },
-    });
-   
-    this.$vToastify.success('Successfully post comment!');
-    this.writeCommentSection = false;
-    this.getOffer()
-
+      this.$vToastify.success('Successfully post comment!');
+      this.writeCommentSection = false;
+      this.getOffer();
     },
 
     handleCancel() {
       this.writeCommentSection = false;
-    }
+    },
   },
   mounted() {
     this.getOffer();
@@ -395,18 +422,17 @@ export default {
   justify-content: space-around;
   width: 80%;
   margin: auto;
-
 }
 
 .subtitle {
   width: 80%;
-  margin:auto;
+  margin: auto;
   margin-bottom: 2rem;
-  text-align: center
+  text-align: center;
 }
 
 .btn-post {
-   margin-right: 16px;
+  margin-right: 16px;
   color: white;
   background-color: rgb(18, 116, 18);
   outline: none;
@@ -447,7 +473,41 @@ export default {
 .btn-cancel:hover {
   background-color: white;
   color: rgb(185, 9, 9);
-  border-color:rgb(185, 9, 9);
+  border-color: rgb(185, 9, 9);
 }
 
+.btn-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1rem;
+  background-color: orangered;
+  color: white;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+.participants-section {
+  background-color: #9c9c9b;
+  color: white;
+  position: absolute;
+  padding: 3rem;
+  top: 6rem;
+  right: 30%;
+  border-radius: 6px;
+  box-shadow: 5px 5px 16px 5px rgba(0, 0, 0, 0.36);
+}
+
+.participants p {
+  margin:0;
+  padding:0
+}
+
+.participants {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+}
 </style>
