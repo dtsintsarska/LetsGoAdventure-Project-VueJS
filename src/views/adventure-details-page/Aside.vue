@@ -69,6 +69,14 @@
             Delete this adventure?
           </button>
         </div>
+        <div v-if="isAdmin" class="infoButton">
+          <button
+            class="buttonParticipants"
+            @click.prevent="clickParticipants()"
+          >
+            See all participants
+          </button>
+        </div>
       </section>
     </div>
   </aside>
@@ -98,10 +106,13 @@ export default {
   },
   methods: {
     clickDelete() {
-      this.$emit("deleteClick");
+      this.$emit('deleteClick');
     },
     clickComment() {
       this.$emit('writeCommentClick');
+    },
+    clickParticipants() {
+      this.$emit('showParticipantsClick')
     }
   },
 };
@@ -143,10 +154,12 @@ export default {
   font-size: 17px;
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
   background-color: #fff;
   border: 1px solid lightgreen;
   color: green;
+  outline: none;
 }
 
 /* Button comment  */
@@ -163,10 +176,12 @@ export default {
   font-size: 17px;
 }
 
-.buttonComment:hover {
+.buttonComment:hover,
+.buttonComment:focus {
   background-color: #fff;
   border: 1px solid lightsalmon;
   color: salmon;
+  outline: none;
 }
 
 /* Delete button */
@@ -183,9 +198,34 @@ export default {
   text-decoration: none;
 }
 
-.buttonDelete:hover {
+.buttonDelete:hover,
+.buttonDelete:focus {
   background-color: #fff;
   border: 1px solid red;
   color: red;
+  outline: none;
+}
+
+/* Participants button  */
+
+.buttonParticipants {
+  color: white;
+  background-color: #3498b9;
+  width: 200px;
+  height: 70px;
+  border-radius: 15px;
+  border: 1px solid white;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.buttonParticipants:hover,
+.buttonParticipants:focus {
+  background-color: #fff;
+  border: 1px solid #3498b9;
+  color: #3498b9;
+  outline: none;
 }
 </style>
