@@ -10,7 +10,7 @@
         <div class="title-list">
           <strong>List of your adventures:</strong>
         </div>
-        <div class="list">
+        <div class="list-adventures">
           <SingleOffer
             v-for="adventure in adventures"
             :key="adventure._id"
@@ -101,30 +101,11 @@ export default {
   color: #3498b3;
 }
 
-.list {
+.list-adventures {
   font-size: 14px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
 
-.list li {
-  display: inline-block;
-  width: 250px;
-  vertical-align: top;
-}
-
-.list img {
-  width: 250px;
-  height: 250px;
-}
-
-.list p {
-  font-size: 15px;
-}
-
-.list button {
-  font-size: 15px;
-  display: inline-block;
-}
 </style>
