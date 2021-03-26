@@ -13,8 +13,9 @@ export default {
   methods: {
     handleYes() {
       this.$store.commit("logOut");
+      this.$router.push("/");
       this.$vToastify.success("You have been successfully logged out!");
-      this.$router.push("/login");
+     
     },
     handleNo() {
       this.$router.push("/");
